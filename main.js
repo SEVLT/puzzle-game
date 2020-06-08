@@ -4,6 +4,9 @@ var boxBefore = []
 var boxAfter = []
 var boxes
 var states = true
+var timer
+var s = 0
+var ms = 0
 
 init()
 go()
@@ -13,7 +16,7 @@ function init() {
     for (i = 0; i < 3; i++) {
         for (j = 0; j < 3; j++) {
             boxBefore.push(i * 3 + j) //原数组顺序为0-9
-            var box = $('<div></div>') //常见九个格子
+            var box = $('<div></div>') //创建九个格子
             $(box).attr('class', 'box')
             $(box).css({
                 width: '100px',
@@ -52,6 +55,7 @@ function dropArry(arr) {
 function go() {
     btn.on('click', function () {
         if (states) {
+            timer = setInterval(timeGo, 100)
             $('.start').text('复原')
             states = false
             mixArry()
@@ -100,6 +104,7 @@ function go() {
                     })
                 })
         } else {
+            resetTime()
             $('.start').text('开始')
             states = true
             dropArry(boxBefore)
@@ -107,6 +112,22 @@ function go() {
             boxes.css({ cursor: 'default' }).off('mouseup').off('mousedown').off('mouseover')
         }
     })
+}
+function timeGo() {
+    ms += 1
+    if (ms >= 10) {
+        s += 1
+        ms = 0
+    }
+    document.getElementById('ms').innerHTML = ms
+    document.getElementById('s').innerHTML = s
+}
+function resetTime() {
+    clearInterval(timer)
+    document.getElementById('ms').innerHTML = 0
+    document.getElementById('s').innerHTML = 0
+    ms=0
+    s=0 
 }
 function getIndex(y, x, index) {
     if (x < 0 || x > 300 || y < 0 || y > 300) {
@@ -163,5 +184,6 @@ function success() {
     boxes.css({ cursor: 'default' }).off('mouseup').off('mousedown').off('mouseover')
     btn.text('开始')
     states = true
-    alert('成功！')
+    alert(`成功！用时${s}.${ms}秒`)
+    resetTime()
 }

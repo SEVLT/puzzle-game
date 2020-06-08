@@ -47,3 +47,9 @@ body {
     border: 1px solid #8e8e8e;
     box-shadow: 0 0 5px #8e8e8e;
 }
+.time{
+    position: absolute;
+    bottom: 25px;
+    left: 25px;
+    color: #626365;
+}
